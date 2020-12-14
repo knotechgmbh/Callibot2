@@ -10,7 +10,7 @@
         "README.md",
         "main.blocks",
         "main.ts",
-        "knotech.ts"
+        "knotech2.ts"
     ],
     "testFiles": [
         "test.ts"
