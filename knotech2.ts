@@ -1,5 +1,5 @@
 
-// V0.0.1
+// V0.1.0
 // Calli:bot 2
 
 enum C2Motor {
@@ -112,16 +112,12 @@ namespace calliBot2 {
             let buffer = pins.i2cReadBuffer(0x21, 1);
             if ((buffer[0] & 0x80) != 0){        // Check if it's a CalliBot2
                 c2IsBot2 = 1;
-                stopAll();
             }
-            else{
-                setLed(C2Motor.links, C2State.aus);
-                setLed(C2Motor.rechts, C2State.aus);
-                motorStop(C2Motor.beide, C2Stop.Bremsen);
-                setRgbLed(C2RgbLed.All, 0, 0, 0);
-            }
-
-        }
+            setLed(C2Motor.links, C2State.aus);
+            setLed(C2Motor.rechts, C2State.aus);
+            motorStop(C2Motor.beide, C2Stop.Bremsen);
+            setRgbLed(C2RgbLed.All, 0, 0, 0);
+    }
     }
 
     function writeMotor(nr: C2Motor, direction: C2Dir, speed: number) {
@@ -271,13 +267,7 @@ namespace calliBot2 {
         }
     }
 
-    //% block="Alles abschalten"
-    export function stopAll (){
-        let buffer = pins.createBuffer(1)
-        buffer[0] = 0x01;
-        pins.i2cWriteBuffer(0x22, buffer);
-    }
-
+ 
     //% block="Stoßstange |%sensor| |%status"
     //% color="#00C040"
     export function readBumperSensor(sensor: C2Sensor, status: C2State): boolean{
@@ -358,33 +348,7 @@ namespace calliBot2 {
         }
     }
 
-    //% color="#00C040" block="Batteriespannung (mV)"
-    //% advanced = true
-    export function batteryVoltage (): number {
-        let wbuffer = pins.createBuffer(1);
-        wbuffer[0] = 0x83;
-        pins.i2cWriteBuffer(0x22, wbuffer);
-        let buffer = pins.i2cReadBuffer(0x22, 3);
-        return (buffer[2] * 256 + buffer[1]);
-    }
 
-    //% color="#00C040" block="Spursensor $sensor analog (mV)"
-    //% advanced = true
-    export function lineSensorRaw (sensor: C2Sensor): number {
-        let wBuffer = pins.createBuffer(1);
-        let sensorValue: number;
-
-        wBuffer[0] = 0x84;
-        pins.i2cWriteBuffer(0x22, wBuffer);
-        let buffer = pins.i2cReadBuffer(0x22,5);
-        if (sensor == C2Sensor.links){
-            sensorValue = buffer[2] * 256 + buffer[1];
-        }
-        else {
-            sensorValue = buffer[4] * 256 + buffer[3];
-        }
-        return sensorValue;
-    }
 
     //% blockId=K_warte color="#0082E6" block="Warte bis |%sensor| |%check| |%value"
     export function warte(sensor: C2SensorWait, check: C2Check, value: number) {
