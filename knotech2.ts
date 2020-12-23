@@ -141,7 +141,7 @@ namespace calliBot2 {
     }
 
     //% speed.min=5 speed.max=100
-    //% blockId=K_motor block="Schalte Motor |%KMotor| |%KDir| mit |%number| %"
+    //% blockId=C2_motor block="Schalte Motor |%KMotor| |%KDir| mit |%number| %"
     export function motor(nr: C2Motor, direction: C2Dir, speed: number) {
         if (speed > 100) {
             speed = 100
@@ -154,7 +154,7 @@ namespace calliBot2 {
     }
 
     //="Stoppe Motor $nr"
-    //% blockId=K_motorStop block="Stoppe Motor |%nr| |%mode"
+    //% blockId=C2_motorStop block="Stoppe Motor |%nr| |%mode"
     export function motorStop(nr: C2Motor, mode: C2Stop) {
         if (mode == C2Stop.Frei) {
             writeMotor(nr, 0, 1);
@@ -165,7 +165,7 @@ namespace calliBot2 {
     }
 
     //% pos.min=0 pos.max=180
-    //% blockId=K_Servo block="Bewege Servo |%nr| auf |%pos|°"
+    //% blockId=C2_Servo block="Bewege Servo |%nr| auf |%pos|°"
     export function servo(nr: C2Servo, pos: number) {
         let buffer = pins.createBuffer(2)
         if (pos < 0) {
@@ -186,7 +186,7 @@ namespace calliBot2 {
         pins.i2cWriteBuffer(0x20, buffer)
     }
 
-    //% blockId=K_SetLed block="Schalte LED |%KSensor| |%KState"
+    //% blockId=C2_SetLed block="Schalte LED |%KSensor| |%KState"
     export function setLed(led: C2Motor, state: C2State) {
         let buffer = pins.createBuffer(2)
         init()
@@ -223,7 +223,7 @@ namespace calliBot2 {
     }
 
     //% intensity.min=0 intensity.max=8
-    //% blockId=K_RGB_LED block="Schalte Beleuchtung $led rot $red grün $green blau $blue"
+    //% blockId=C2_RGB_LED block="Schalte Beleuchtung $led rot $red grün $green blau $blue"
     //% red.min=0 red.max=16
     //% green.min=0 green.max=16
     //% blue.min=0 blue.max=16
@@ -336,7 +336,7 @@ namespace calliBot2 {
         return result
     }
 
-    //% blockId=K_entfernung color="#00C040" block="Entfernung |%modus" blockGap=8
+    //% blockId=C2_entfernung color="#00C040" block="Entfernung |%modus" blockGap=8
     export function entfernung(modus: C2Einheit): number {
         let buffer = pins.i2cReadBuffer(0x21, 3)
         init()
@@ -350,7 +350,7 @@ namespace calliBot2 {
 
 
 
-    //% blockId=K_warte color="#0082E6" block="Warte bis |%sensor| |%check| |%value"
+    //% blockId=C2_warte color="#0082E6" block="Warte bis |%sensor| |%check| |%value"
     export function warte(sensor: C2SensorWait, check: C2Check, value: number) {
         let abbruch = 0
         let sensorValue = 0
